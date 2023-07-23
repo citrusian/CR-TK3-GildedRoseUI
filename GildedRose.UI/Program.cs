@@ -146,7 +146,8 @@ namespace GildedRose.Console
                     {
                         IncreaseQualityByOne(Items[i]);
 
-                        // Cannot be combined to retain the logic
+                        // Cannot be combined to retain the logic, looking at original code
+                        // "IncreaseQualityByOne(Items[i]);" must be called twice if "Items[i].SellIn < 6"
                         // remove unused / duplicate condition "Quality < 50", already evaluted at outer block
                         if (Items[i].Name == "Backstage passes to a TAFKAL80ETC concert" && Items[i].SellIn < 11)
                         {
@@ -165,61 +166,30 @@ namespace GildedRose.Console
                 }
 
 
-                // Cannot be refactored to retain the logic
+                // Cannot be combined to retain the logic
                 if (Items[i].Name != "Sulfuras, Hand of Ragnaros")
                 {
                     DecreaseSellinByOne(Items[i]);
                 }
 
 
-                AdjustSellInQuality(Items[i]);
-            }
-        }
-
-        private void AdjustSellInQuality(Item item)
-        {
-
-            if (item.SellIn < 0)
-            {
-                // Invert condition, then use guard clause to reduce nested if
-                if (item.Name == "Aged Brie" && item.Quality < 50)
+                if (Items[i].SellIn < 0)
                 {
-                    IncreaseQualityByOne(item);
-                }
-                else if (item.Name == "Backstage passes to a TAFKAL80ETC concert")
-                {
-                    SetQualityZero(item);
-                }
-                else if (item.Quality > 0 && item.Name != "Sulfuras, Hand of Ragnaros")
-                {
-                    DecreaseQualityByOne(item);
+                    // Invert condition, then use guard clause to reduce nested if
+                    if (Items[i].Name == "Aged Brie" && Items[i].Quality < 50)
+                    {
+                        IncreaseQualityByOne(Items[i]);
+                    }
+                    else if (Items[i].Name == "Backstage passes to a TAFKAL80ETC concert")
+                    {
+                        SetQualityZero(Items[i]);
+                    }
+                    else if (Items[i].Quality > 0 && Items[i].Name != "Sulfuras, Hand of Ragnaros")
+                    {
+                        DecreaseQualityByOne(Items[i]);
+                    }
                 }
             }
-            //if (Items[i].SellIn < 0)
-            //{
-            //    // Invert Logic
-            //    if (Items[i].Name == "Aged Brie")
-            //    {
-            //        if (Items[i].Quality < 50)
-            //        {
-            //            IncreaseQualityByOne(Items[i]);
-            //        }
-            //    }
-            //    else
-            //    {
-            //        if (Items[i].Name == "Backstage passes to a TAFKAL80ETC concert")
-            //        {
-            //            SetQualityZero(Items[i]);
-            //        }
-            //        else
-            //        {
-            //            if (Items[i].Quality > 0 && Items[i].Name != "Sulfuras, Hand of Ragnaros")
-            //            {
-            //                DecreaseQualityByOne(Items[i]);
-            //            }
-            //        }
-            //    }
-            //}
         }
     }
 
